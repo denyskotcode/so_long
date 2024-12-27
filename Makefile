@@ -2,7 +2,7 @@
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
 
-# Executable Names
+# Executable Name
 NAME = so_long
 
 # Directories
@@ -12,12 +12,13 @@ OBJDIR = obj
 LIBFTDIR = libs/libft
 FTPRINTF_DIR = libs/libftprintf
 MLXDIR = libs/minilibx-linux
+GNL_DIR = libs/get_next_line
 
 # Source Files
-SRC = so_long.c
+SRC = so_long.c check_map_file.c $(GNL_DIR)/get_next_line.c
 
 # Object Files
-OBJ = $(OBJDIR)/$(SRC:.c=.o)
+OBJ = $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
 
 # Libraries
 LIBFT = $(LIBFTDIR)/libft.a
@@ -35,7 +36,10 @@ $(NAME): $(OBJ) $(LIBFT) $(FTPRINTF) $(MLX)
 
 # Rule for Compiling Source Files to Object Files
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
-	$(CC) $(CFLAGS) -I$(LIBFTDIR) -I$(FTPRINTF_DIR) -I$(MLXDIR) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(LIBFTDIR) -I$(FTPRINTF_DIR) -I$(MLXDIR) -I$(GNL_DIR) -c $< -o $@
+
+$(OBJDIR)/%.o: $(GNL_DIR)/%.c | $(OBJDIR)
+	$(CC) $(CFLAGS) -I$(LIBFTDIR) -I$(FTPRINTF_DIR) -I$(MLXDIR) -I$(GNL_DIR) -c $< -o $@
 
 # Ensure Object Directory Exists
 $(OBJDIR):
@@ -66,4 +70,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-

@@ -6,7 +6,7 @@
 /*   By: dkot <dkot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 01:40:14 by dkot              #+#    #+#             */
-/*   Updated: 2024/12/27 01:58:58 by dkot             ###   ########.fr       */
+/*   Updated: 2024/12/27 21:59:31 by dkot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,19 @@
 # include <mlx.h>
 
 typedef struct s_map {
-    char **grid;      // 2D array of characters representing the map
-    int width;        // Number of columns in the map
-    int height;       // Number of rows in the map
-    int player_count; // Number of players ('P') in the map
-    int exit_count;   // Number of exits ('E') in the map
-    int collectible_count; // Number of collectibles ('C') in the map
+    char **grid;
+    int width;
+    int height;
+    int player_count;
+    int exit_count;
+    int collectible_count;
 } t_map;
 
+typedef struct s_line {
+	char *line;
+	char *last_line;
+	int line_length;
+} t_line;
 
 typedef struct	s_player
 {
@@ -47,6 +52,13 @@ typedef struct	s_game
 	void *window;
 } t_game;
 
-void	error_exit(char *message);
+void error_exit(char *message, char *line, char *last_line, int fd);
+void declare_map(t_map *map);
+void declare_line(t_line *line);
+void parse_map(const char *filename, t_map *map);
+void check_map_width(t_line *lines, t_map *map, int fd);
+void check_first_and_last_line(int line_length, int fd, char *line);
+void check_middle_line(t_line *lines, t_map *map, int fd);
+void check_t_map(t_map *map);
 
 #endif
