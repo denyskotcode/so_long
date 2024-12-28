@@ -6,7 +6,7 @@
 	  "type": "cppdbg",
 	  "request": "launch",
 	  "program": "${workspaceFolder}/so_long",
-	  "args": ["maps/map.ber"], // Replace with actual arguments
+	  "args": ["maps/empty.ber"], // Replace with actual arguments
 	  "stopAtEntry": true, // Set to true if you want the debugger to pause at the program's entry point
 	  "cwd": "${workspaceFolder}",
 	  "environment": [],

@@ -6,7 +6,7 @@
 /*   By: dkot <dkot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 01:40:14 by dkot              #+#    #+#             */
-/*   Updated: 2024/12/28 22:14:15 by dkot             ###   ########.fr       */
+/*   Updated: 2024/12/28 23:28:48 by dkot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ void check_map_width(t_line *lines, t_map *map, int fd);
 void check_first_and_last_line(int line_length, int fd, char *line);
 void check_middle_line(t_line *lines, t_map *map, int fd);
 void check_t_map(t_map *map);
-char *get_next_line(int fd);
+char *get_next_line(int fd); //not for entaire time, but for some time
 
 #endif
