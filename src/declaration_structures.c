@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.c                                          :+:      :+:    :+:   */
+/*   declaration_files.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dkot <dkot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/27 01:40:11 by dkot              #+#    #+#             */
-/*   Updated: 2024/12/28 23:28:00 by dkot             ###   ########.fr       */
+/*   Created: 2024/12/28 23:29:25 by dkot              #+#    #+#             */
+/*   Updated: 2024/12/28 23:30:03 by dkot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	main(int argc, char *argv[])
+void declare_map(t_map *map)
 {
-	t_map	map;
-
-	if (argc != 2)
-		error_exit("argument error", NULL, NULL, -1);
-	parse_map(argv[1], &map);
+	map->width = 0;
+	map->height = 0;
+	map->player_count = 0;
+	map->exit_count = 0;
+	map->collectible_count = 0;
+}
+void declare_line(t_line *line)
+{
+	line->last_line = NULL;
+	line->line = NULL;
+	line->line_length = 0;
 }
