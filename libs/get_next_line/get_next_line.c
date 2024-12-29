@@ -7,29 +7,40 @@
 # define BUFFER_SIZE 42
 #endif
 
-size_t  fft_strlen(const char *s);
-char    *fft_strchr(const char *s, int c);
-char    *fft_strjoin(const char *s1, const char *s2);
-char    *fft_substr(const char *s, unsigned int start, size_t len);
+static char *g_stored = NULL;
+
+size_t  gnl_strlen(const char *s);
+char    *gnl_strchr(const char *s, int c);
+char    *gnl_strjoin(const char *s1, const char *s2);
+char    *gnl_substr(const char *s, unsigned int start, size_t len);
+
+void free_gnl_buffer(void)
+{
+    if (g_stored)
+    {
+        free(g_stored);
+        g_stored = NULL;
+    }
+}
 
 static char *extract_line(const char *stored)
 {
     size_t i = 0;
-    char *line;
+    char   *line;
     if (!stored || !stored[0])
         return NULL;
     while (stored[i] && stored[i] != '\n')
         i++;
     if (stored[i] == '\n')
         i++;
-    line = fft_substr(stored, 0, i);
+    line = gnl_substr(stored, 0, i);
     return line;
 }
 
 static char *trim_leftover(const char *stored)
 {
     size_t i = 0;
-    char *new_stored;
+    char   *new_stored;
     if (!stored)
         return NULL;
     while (stored[i] && stored[i] != '\n')
@@ -37,7 +48,7 @@ static char *trim_leftover(const char *stored)
     if (!stored[i])
         return NULL;
     i++;
-    new_stored = fft_substr(stored, i, fft_strlen(stored) - i);
+    new_stored = gnl_substr(stored, i, gnl_strlen(stored) - i);
     if (!new_stored || !new_stored[0])
     {
         free(new_stored);
@@ -48,9 +59,9 @@ static char *trim_leftover(const char *stored)
 
 static char *read_and_accumulate(int fd, char *stored)
 {
-    char buffer[BUFFER_SIZE + 1];
+    char    buffer[BUFFER_SIZE + 1];
     ssize_t bytes_read = 1;
-    char *tmp;
+    char    *tmp;
     while (bytes_read > 0)
     {
         bytes_read = read(fd, buffer, BUFFER_SIZE);
@@ -58,14 +69,14 @@ static char *read_and_accumulate(int fd, char *stored)
             return NULL;
         buffer[bytes_read] = '\0';
         if (!stored)
-            stored = fft_substr(buffer, 0, bytes_read);
+            stored = gnl_substr(buffer, 0, bytes_read);
         else
         {
-            tmp = fft_strjoin(stored, buffer);
+            tmp = gnl_strjoin(stored, buffer);
             free(stored);
             stored = tmp;
         }
-        if (fft_strchr(buffer, '\n'))
+        if (gnl_strchr(buffer, '\n'))
             break;
     }
     return stored;
@@ -73,22 +84,21 @@ static char *read_and_accumulate(int fd, char *stored)
 
 char *get_next_line(int fd)
 {
-    static char *stored = NULL;
     char *line;
     char *new_stored;
     if (fd < 0 || BUFFER_SIZE <= 0)
         return NULL;
-    stored = read_and_accumulate(fd, stored);
-    if (!stored)
+    g_stored = read_and_accumulate(fd, g_stored);
+    if (!g_stored)
         return NULL;
-    line = extract_line(stored);
-    new_stored = trim_leftover(stored);
-    free(stored);
-    stored = new_stored;
+    line = extract_line(g_stored);
+    new_stored = trim_leftover(g_stored);
+    free(g_stored);
+    g_stored = new_stored;
     return line;
 }
 
-size_t fft_strlen(const char *s)
+size_t gnl_strlen(const char *s)
 {
     size_t i = 0;
     if (!s)
@@ -98,7 +108,7 @@ size_t fft_strlen(const char *s)
     return i;
 }
 
-char *fft_strchr(const char *s, int c)
+char *gnl_strchr(const char *s, int c)
 {
     if (!s)
         return NULL;
@@ -113,21 +123,21 @@ char *fft_strchr(const char *s, int c)
     return NULL;
 }
 
-char *fft_strjoin(const char *s1, const char *s2)
+char *gnl_strjoin(const char *s1, const char *s2)
 {
-    size_t len1;
-    size_t len2;
-    char *result;
-    size_t i;
-    size_t j;
+    size_t  len1;
+    size_t  len2;
+    char    *result;
+    size_t  i;
+    size_t  j;
     if (!s1 && !s2)
         return NULL;
     else if (!s1)
-        return fft_substr(s2, 0, fft_strlen(s2));
+        return gnl_substr(s2, 0, gnl_strlen(s2));
     else if (!s2)
-        return fft_substr(s1, 0, fft_strlen(s1));
-    len1 = fft_strlen(s1);
-    len2 = fft_strlen(s2);
+        return gnl_substr(s1, 0, gnl_strlen(s1));
+    len1 = gnl_strlen(s1);
+    len2 = gnl_strlen(s2);
     result = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
     if (!result)
         return NULL;
@@ -142,14 +152,14 @@ char *fft_strjoin(const char *s1, const char *s2)
     return result;
 }
 
-char *fft_substr(const char *s, unsigned int start, size_t len)
+char *gnl_substr(const char *s, unsigned int start, size_t len)
 {
-    char *sub;
+    char   *sub;
     size_t s_len;
     size_t i;
     if (!s)
         return NULL;
-    s_len = fft_strlen(s);
+    s_len = gnl_strlen(s);
     if (start >= s_len)
         return NULL;
     if (len > s_len - start)
@@ -167,22 +177,22 @@ char *fft_substr(const char *s, unsigned int start, size_t len)
     return sub;
 }
 
-#ifdef TEST_GNL
-int main(int argc, char **argv)
+/*
+Example usage:
+int main(void)
 {
-    if (argc == 2)
+    int     fd;
+    char    *line;
+    fd = open("file.txt", O_RDONLY);
+    if (fd < 0)
+        return (1);
+    while ((line = get_next_line(fd)) != NULL)
     {
-        int fd = open(argv[1], O_RDONLY);
-        char *line;
-        if (fd == -1)
-            return 1;
-        while ((line = get_next_line(fd)) != NULL)
-        {
-            printf("%s", line);
-            free(line);
-        }
-        close(fd);
+        write(1, line, gnl_strlen(line));
+        free(line);
     }
+    close(fd);
+    free_gnl_buffer(); // Ensure no "still reachable" blocks
     return 0;
 }
-#endif
+*/
