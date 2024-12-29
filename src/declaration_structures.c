@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   declaration_files.c                                :+:      :+:    :+:   */
+/*   declaration_structures.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dkot <dkot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 23:29:25 by dkot              #+#    #+#             */
-/*   Updated: 2024/12/28 23:30:03 by dkot             ###   ########.fr       */
+/*   Updated: 2024/12/29 01:35:37 by dkot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void declare_map(t_map *map)
+void	declare_map(t_map *map)
 {
 	map->width = 0;
 	map->height = 0;
@@ -20,7 +20,8 @@ void declare_map(t_map *map)
 	map->exit_count = 0;
 	map->collectible_count = 0;
 }
-void declare_line(t_line *line)
+
+void	declare_line(t_line *line)
 {
 	line->last_line = NULL;
 	line->line = NULL;
