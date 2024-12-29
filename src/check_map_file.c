@@ -6,7 +6,7 @@
 /*   By: dkot <dkot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 21:55:10 by dkot              #+#    #+#             */
-/*   Updated: 2024/12/29 02:05:17 by dkot             ###   ########.fr       */
+/*   Updated: 2024/12/29 03:04:56 by dkot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	error_exit(char *message, char *line, char *last_line, int fd)
 		free(last_line);
 	if (fd >= 0)
 		close(fd);
-    free_gnl_buffer();
+	free_gnl_buffer();
 	ft_printf("Error: %s\n", message);
 	exit(EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: dkot <dkot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 01:40:11 by dkot              #+#    #+#             */
-/*   Updated: 2024/12/28 23:28:00 by dkot             ###   ########.fr       */
+/*   Updated: 2024/12/29 03:01:44 by dkot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,5 @@ int	main(int argc, char *argv[])
 	if (argc != 2)
 		error_exit("argument error", NULL, NULL, -1);
 	parse_map(argv[1], &map);
+	allocation_map(argv[1], &map);
 }

@@ -6,7 +6,7 @@
 /*   By: dkot <dkot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 01:40:14 by dkot              #+#    #+#             */
-/*   Updated: 2024/12/29 02:05:12 by dkot             ###   ########.fr       */
+/*   Updated: 2024/12/29 03:05:03 by dkot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	check_map_width(t_line *lines, t_map *map, int fd);
 void	process_line(t_line *lines, t_map *map, int fd);
 void	parse_map(const char *filename, t_map *map);
 void	free_gnl_buffer(void);
+void	allocation_map(const char *filename, t_map *map);
 char	*get_next_line(int fd); //temp variant
+void	print_map(t_map *map);
 
 #endif
