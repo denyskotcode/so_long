@@ -6,7 +6,7 @@
 /*   By: dkot <dkot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 01:40:14 by dkot              #+#    #+#             */
-/*   Updated: 2024/12/29 03:05:03 by dkot             ###   ########.fr       */
+/*   Updated: 2024/12/31 02:10:56 by dkot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,16 @@ typedef struct s_game
 	void		*window;
 }	t_game;
 
+typedef struct s_textures
+{
+	void *wall_img;
+    void *floor_img;
+    void *player_img;
+    void *collectible_img;
+    void *exit_img;
+    int x;
+	int y;
+}	t_textures;
 void	error_exit(char *message, char *line, char *last_line, int fd);
 void	declare_map(t_map *map);
 void	declare_line(t_line *lines);
@@ -67,5 +77,13 @@ void	free_gnl_buffer(void);
 void	allocation_map(const char *filename, t_map *map);
 char	*get_next_line(int fd); //temp variant
 void	print_map(t_map *map);
+void free_map(t_map *map);
+void cleanup_textures(void *mlx, t_textures *textures);
+void declare_texture(t_textures *textures, void *mlx, int tile_size);
+void render_grid(void *mlx, void *win, t_map *map, int tile_size, t_textures *textures);
+void render_map(t_map *map);
+int close_window(t_map *map);
+int handle_keypress(int keycode, t_map *map);
+void handle_events(void *mlx, void *win, t_map *map);
 
 #endif
