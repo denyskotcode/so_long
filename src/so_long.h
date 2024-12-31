@@ -6,7 +6,7 @@
 /*   By: dkot <dkot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 01:40:14 by dkot              #+#    #+#             */
-/*   Updated: 2024/12/31 02:10:56 by dkot             ###   ########.fr       */
+/*   Updated: 2024/12/31 06:22:46 by dkot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,61 +29,67 @@ typedef struct s_map
 	int		player_count;
 	int		exit_count;
 	int		collectible_count;
-}	t_map;
+}			t_map;
 
-/* Line structure */
 typedef struct s_line
 {
 	char	*line;
 	char	*last_line;
 	int		line_length;
-}	t_line;
+}			t_line;
 
 typedef struct s_player
 {
-	int	x;
-	int	y;
-	int	moves;
-}	t_player;
-
-typedef struct s_game
-{
-	t_map		map;
-	t_player	player;
-	void		*mlx;
-	void		*window;
-}	t_game;
+	int		x;
+	int		y;
+	int		moves;
+}			t_player;
 
 typedef struct s_textures
 {
-	void *wall_img;
-    void *floor_img;
-    void *player_img;
-    void *collectible_img;
-    void *exit_img;
-    int x;
-	int y;
-}	t_textures;
-void	error_exit(char *message, char *line, char *last_line, int fd);
+	void	*w;
+	void	*f;
+	void	*p;
+	void	*c;
+	void	*e;
+}			t_t;
+
+typedef struct s_render
+{
+	int			tile_size;
+	void		*mlx;
+	void		*win;
+	t_t	t;
+}				t_render;
+
+typedef struct s_game
+{
+	t_map		*map;
+	t_player	*player;
+	t_render	*render;
+}				t_game;
+
+void	cleanup_textures(void *mlx, t_t *t);
+void	declare_texture(t_t *t, void *mlx, int tile_size);
+void	render_grid(t_render *render, t_map *map, t_player *player);
+void	declare_player(t_map *map, t_player *player);
+int		handle_keypress(int keycode, t_game *game);
+void	processing_moves(t_map *map, t_player *player, int new_x, int new_y,
+			t_render *render);
+int		close_window(t_map *map);
+void	handle_events(t_game *game);
+void	render_map(t_map *map);
 void	declare_map(t_map *map);
-void	declare_line(t_line *lines);
+void	declare_line(t_line *line);
+void	error_exit(char *message, char *line, char *last_line, int fd);
 void	check_t_map(t_map *map);
+void	process_line(t_line *lines, t_map *map, int fd);
+void	parse_map(const char *filename, t_map *map);
 void	check_middle_line(t_line *lines, t_map *map, int fd);
 void	check_first_and_last_line(int line_length, int fd, char *line);
 void	check_map_width(t_line *lines, t_map *map, int fd);
-void	process_line(t_line *lines, t_map *map, int fd);
-void	parse_map(const char *filename, t_map *map);
-void	free_gnl_buffer(void);
 void	allocation_map(const char *filename, t_map *map);
-char	*get_next_line(int fd); //temp variant
-void	print_map(t_map *map);
-void free_map(t_map *map);
-void cleanup_textures(void *mlx, t_textures *textures);
-void declare_texture(t_textures *textures, void *mlx, int tile_size);
-void render_grid(void *mlx, void *win, t_map *map, int tile_size, t_textures *textures);
-void render_map(t_map *map);
-int close_window(t_map *map);
-int handle_keypress(int keycode, t_map *map);
-void handle_events(void *mlx, void *win, t_map *map);
+void	free_map(t_map *map);
+char	*get_next_line(int fd);
 
 #endif

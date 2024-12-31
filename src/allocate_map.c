@@ -6,28 +6,11 @@
 /*   By: dkot <dkot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 02:20:04 by dkot              #+#    #+#             */
-/*   Updated: 2024/12/29 03:09:20 by dkot             ###   ########.fr       */
+/*   Updated: 2024/12/31 05:54:06 by dkot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	print_map(t_map *map) //temp function
-{
-	if (!map || !map->grid)
-	{
-		printf("Map or grid is NULL.\n");
-		return ;
-	}
-	printf("Map Contents (%dx%d):\n", map->height, map->width);
-	for (int i = 0; i < map->height; i++)
-	{
-		if (map->grid[i])
-			printf("%s", map->grid[i]);
-		else
-			printf("(null)\n");
-	}
-}
 
 void	allocation_map(const char *filename, t_map *map)
 {
