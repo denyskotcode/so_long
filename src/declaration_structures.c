@@ -6,7 +6,7 @@
 /*   By: dkot <dkot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 23:29:25 by dkot              #+#    #+#             */
-/*   Updated: 2025/01/01 07:50:12 by dkot             ###   ########.fr       */
+/*   Updated: 2025/01/01 08:54:49 by dkot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	declare_player(t_map *map, t_player *player)
 			{
 				player->x = x;
 				player->y = y;
-				player->moves = 0;
+				player->moves = 1;
 				return ;
 			}
 			x++;
