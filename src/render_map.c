@@ -6,7 +6,7 @@
 /*   By: dkot <dkot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 06:09:02 by dkot              #+#    #+#             */
-/*   Updated: 2025/01/01 08:51:07 by dkot             ###   ########.fr       */
+/*   Updated: 2025/01/01 08:57:25 by dkot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,20 +67,17 @@ void	processing_moves(t_map *map, t_player *player,
 {
 	if (map->grid[c.new_y][c.new_x] == 'E' && map->collectible_count == 0)
 	{
-		player->moves++;
 		ft_printf("Moves: %d\n", player->moves);
 		close_window(map);
 	}
 	else if (map->grid[c.new_y][c.new_x] == 'C')
 	{
-		map->grid[c.new_y][c.new_x] = '0';
 		map->collectible_count--;
 		map->grid[player->y][player->x] = '0';
 		map->grid[c.new_y][c.new_x] = 'P';
 		player->x = c.new_x;
 		player->y = c.new_y;
-		player->moves++;
-		ft_printf("Moves: %d\n", player->moves);
+		ft_printf("Moves: %d\n", player->moves++);
 	}
 	else if (map->grid[c.new_y][c.new_x] == '0')
 	{
@@ -88,41 +85,38 @@ void	processing_moves(t_map *map, t_player *player,
 		map->grid[c.new_y][c.new_x] = 'P';
 		player->x = c.new_x;
 		player->y = c.new_y;
-		player->moves++;
-		ft_printf("Moves: %d\n", player->moves);
+		ft_printf("Moves: %d\n", player->moves++);
 	}
 	render_grid(render, map, player);
 }
 
-int close_window(t_map *map)
+int	close_window(t_map *map)
 {
 	free_map(map);
 	exit(0);
 }
+
 void	handle_events(t_game *game)
 {
 	mlx_hook(game->render->win, 2, 1L << 0, handle_keypress, game);
 	mlx_hook(game->render->win, 17, 0, close_window, game->map);
 }
 
-void render_map(t_map *map)
+void	render_map(t_map *map)
 {
-	t_game game;
-	t_render render;
-	t_player player;
+	t_game		game;
+	t_render	render;
+	t_player	player;
 
 	game.map = map;
 	game.player = &player;
 	game.render = &render;
-
 	render.tile_size = 50;
 	int window_width = map->width * render.tile_size;
 	int window_height = map->height * render.tile_size;
-
 	render.mlx = mlx_init();
 	if (!render.mlx)
 		error_exit("Failed to initialize MiniLibX", NULL, NULL, -1);
-
 	render.win = mlx_new_window(render.mlx, window_width, window_height, "so_long");
 	if (!render.win)
 	{
@@ -130,13 +124,11 @@ void render_map(t_map *map)
 		free(render.mlx);
 		error_exit("Failed to create window", NULL, NULL, -1);
 	}
-
 	declare_texture(&render.t, render.mlx, render.tile_size);
 	declare_player(map, game.player);
 	render_grid(&render, map, game.player);
 	handle_events(&game);
 	mlx_loop(render.mlx);
-
 	cleanup_textures(render.mlx, &render.t);
 	free_map(map);
 	mlx_destroy_window(render.mlx, render.win);
