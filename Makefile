@@ -15,7 +15,7 @@ MLXDIR = libs/minilibx-linux
 GNL_DIR = libs/get_next_line
 
 # Source Files
-SRC = so_long.c check_lines.c check_map_file.c declaration_structures.c allocate_map.c render_map.c $(GNL_DIR)/get_next_line.c
+SRC = so_long.c check_lines.c check_map_file.c declaration_structures.c allocate_map.c render_map.c textures.c $(GNL_DIR)/get_next_line.c
 
 # Object Files
 OBJ = $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
