@@ -6,7 +6,7 @@
 /*   By: dkot <dkot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 06:09:02 by dkot              #+#    #+#             */
-/*   Updated: 2024/12/31 06:22:39 by dkot             ###   ########.fr       */
+/*   Updated: 2025/01/01 08:51:07 by dkot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,62 +39,61 @@ void	render_grid(t_render *r, t_map *map, t_player *player)
 		y++;
 	}
 }
+
 int	handle_keypress(int keycode, t_game *game)
 {
-	int	new_x;
-	int	new_y;
+	t_new_coord	c;
 
-	new_x = game->player->x;
-	new_y = game->player->y;
+	c.new_x = game->player->x;
+	c.new_y = game->player->y;
 	if (keycode == 65307)
 		close_window(game->map);
 	if (keycode == 119 || keycode == 65362)
-		new_y--;
+		c.new_y--;
 	else if (keycode == 97 || keycode == 65361)
-		new_x--;
-	else if (keycode == 115  || keycode == 65364)
-		new_y++;
+		c.new_x--;
+	else if (keycode == 115 || keycode == 65364)
+		c.new_y++;
 	else if (keycode == 100 || keycode == 65363)
-		new_x++;
-	if (game->map->grid[new_y][new_x] != '1')
+		c.new_x++;
+	if (game->map->grid[c.new_y][c.new_x] != '1')
 		processing_moves(
-			game->map, game->player, new_x, new_y, game->render);
+			game->map, game->player, c, game->render);
 	return (0);
 }
 
-void	processing_moves(t_map *map, t_player *player, int new_x, int new_y, t_render *render)
+void	processing_moves(t_map *map, t_player *player,
+			t_new_coord c, t_render *render)
 {
-	if (map->grid[new_y][new_x] == 'E' && map->collectible_count == 0)
+	if (map->grid[c.new_y][c.new_x] == 'E' && map->collectible_count == 0)
 	{
 		player->moves++;
 		ft_printf("Moves: %d\n", player->moves);
 		close_window(map);
 	}
-	else if (map->grid[new_y][new_x] == 'C') // Collectible
+	else if (map->grid[c.new_y][c.new_x] == 'C')
 	{
-		map->grid[new_y][new_x] = '0'; // Remove collectible
+		map->grid[c.new_y][c.new_x] = '0';
 		map->collectible_count--;
-		map->grid[player->y][player->x] = '0'; // Clear old position
-		map->grid[new_y][new_x] = 'P';		   // Set new position
-		player->x = new_x;
-		player->y = new_y;
+		map->grid[player->y][player->x] = '0';
+		map->grid[c.new_y][c.new_x] = 'P';
+		player->x = c.new_x;
+		player->y = c.new_y;
 		player->moves++;
 		ft_printf("Moves: %d\n", player->moves);
 	}
-	else if (map->grid[new_y][new_x] == '0') // Empty space
+	else if (map->grid[c.new_y][c.new_x] == '0')
 	{
-		map->grid[player->y][player->x] = '0'; // Clear old position
-		map->grid[new_y][new_x] = 'P';		   // Set new position
-		player->x = new_x;
-		player->y = new_y;
+		map->grid[player->y][player->x] = '0';
+		map->grid[c.new_y][c.new_x] = 'P';
+		player->x = c.new_x;
+		player->y = c.new_y;
 		player->moves++;
 		ft_printf("Moves: %d\n", player->moves);
 	}
-
-	render_grid(render, map, player); // Re-render the grid
+	render_grid(render, map, player);
 }
 
-// Close the window and exit the program
 int close_window(t_map *map)
 {
 	free_map(map);
@@ -102,11 +101,10 @@ int close_window(t_map *map)
 }
 void	handle_events(t_game *game)
 {
-	mlx_hook(game->render->win, 2, 1L << 0, handle_keypress, game); // Key press
-	mlx_hook(game->render->win, 17, 0, close_window, game->map);	// Window close
+	mlx_hook(game->render->win, 2, 1L << 0, handle_keypress, game);
+	mlx_hook(game->render->win, 17, 0, close_window, game->map);
 }
 
-// Render the entire map
 void render_map(t_map *map)
 {
 	t_game game;

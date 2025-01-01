@@ -6,7 +6,7 @@
 /*   By: dkot <dkot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 01:40:14 by dkot              #+#    #+#             */
-/*   Updated: 2024/12/31 06:22:46 by dkot             ###   ########.fr       */
+/*   Updated: 2025/01/01 08:48:48 by dkot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,18 @@ typedef struct s_textures
 	void	*e;
 }			t_t;
 
+typedef struct s_new_coord
+{
+	int	new_x;
+	int	new_y;
+}	t_new_coord;
+
 typedef struct s_render
 {
 	int			tile_size;
 	void		*mlx;
 	void		*win;
-	t_t	t;
+	t_t			t;
 }				t_render;
 
 typedef struct s_game
@@ -74,7 +80,7 @@ void	declare_texture(t_t *t, void *mlx, int tile_size);
 void	render_grid(t_render *render, t_map *map, t_player *player);
 void	declare_player(t_map *map, t_player *player);
 int		handle_keypress(int keycode, t_game *game);
-void	processing_moves(t_map *map, t_player *player, int new_x, int new_y,
+void	processing_moves(t_map *map, t_player *player, t_new_coord c,
 			t_render *render);
 int		close_window(t_map *map);
 void	handle_events(t_game *game);
