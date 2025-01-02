@@ -6,7 +6,7 @@
 /*   By: dkot <dkot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 01:40:14 by dkot              #+#    #+#             */
-/*   Updated: 2025/01/02 05:53:56 by dkot             ###   ########.fr       */
+/*   Updated: 2025/01/02 06:21:56 by dkot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libs/libft/libft.h"
 # include "../libs/libftprintf/ft_printf.h"
+# include "../libs/get_next_line/get_next_line.h"
 # include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -96,8 +97,7 @@ void		check_first_and_last_line(int line_length, int fd, char *line);
 void		check_map_width(t_line *lines, t_map *map, int fd);
 void		allocation_map(const char *filename, t_map *map);
 void		free_map(t_map *map);
-char		*get_next_line(int fd);
-static void	init_game(t_map *map,
+void		init_game(t_map *map,
 				t_game *game, t_render *render, t_player *player);
 
 #endif
