@@ -6,13 +6,13 @@
 /*   By: dkot <dkot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 06:09:02 by dkot              #+#    #+#             */
-/*   Updated: 2025/01/02 05:54:58 by dkot             ###   ########.fr       */
+/*   Updated: 2025/01/02 06:19:59 by dkot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static void	init_game(t_map *map, t_game *game
+void	init_game(t_map *map, t_game *game
 					, t_render *render, t_player *player)
 {
 	int	window_width;

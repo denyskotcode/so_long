@@ -1,6 +1,6 @@
 # Compiler and Flags
 CC = cc
-CFLAGS = -g# -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -g
 
 # Executable Name
 NAME = so_long
