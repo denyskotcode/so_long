@@ -216,3 +216,10 @@ All five files must be present and loadable — the engine exits with an error i
 <div align="center">
 <sub>Built with C, MiniLibX, and an unreasonable amount of malloc discipline.</sub>
 </div>
+
+
+---
+
+## License
+
+MIT © [denyskotcode](https://github.com/denyskotcode) — see [LICENSE](LICENSE) for details.
